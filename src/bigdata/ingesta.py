@@ -11,16 +11,13 @@ def obtener_datos_api(url="", params={}):
         print(f"Error al hacer la solicitud: {error}")
         return {}
 
-# Solicitar búsqueda desde la terminal
-busqueda = input("Ingrese el término de búsqueda para Google Books: ")
-
 # API de Google Books
 url = "https://www.googleapis.com/books/v1/volumes"
 
-# Parámetros para buscar libros
+# Parámetros para buscar libros de la API
 parametros = {
-    "q": busqueda,  # Se usa el término ingresado en la terminal
-    "maxResults": 20,      
+    "q": "Juego de tronos",
+    "maxResults": 10,      
     "printType": "books"
 }
 
@@ -75,11 +72,13 @@ cursor.execute('''
     )
 ''')
 
-# Limpiar las relaciones antes de insertar nuevos datos
-cursor.execute("DELETE FROM books_authors")
-cursor.execute("DELETE FROM books_categories")
+# Limpiar las relaciones en caso de hacer nuevas búsquedas
+
 cursor.execute("DELETE FROM books")
 cursor.execute("DELETE FROM authors")
+cursor.execute("DELETE FROM books_authors")
+cursor.execute("DELETE FROM books_categories")
+
 conexion.commit()
 
 # Recolectar los datos desde la API y rellenar la base de datos
@@ -120,7 +119,7 @@ if datos and "items" in datos:
 
     # Guardar datos
     conexion.commit()
-    print(f"Datos insertados correctamente en SQLite para la búsqueda: '{busqueda}'.")
+    print("Datos insertados correctamente en SQLite.")
 else:
     print("No se obtuvieron datos para insertar en la base de datos.")
 
