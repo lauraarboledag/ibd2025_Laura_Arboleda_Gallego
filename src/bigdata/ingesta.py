@@ -25,7 +25,7 @@ parametros = {
 datos = obtener_datos_api(url, parametros)
 
 # Conexión a SQLite
-conexion = sqlite3.connect(r"C:\Users\Usuario\Desktop\bigdata_2025\entregables_bigdata2025\src\bigdata\ingesta.db")
+conexion = sqlite3.connect("ingesta.db")
 cursor = conexion.cursor()
 
 # Creación de tablas
