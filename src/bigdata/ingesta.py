@@ -24,6 +24,7 @@ parametros = {
     "printType": "books"
 }
 #ruta_actual = os.getcwd()
+#Configuración de ruta db
 ruta_actual = str(Path.cwd())
 ruta_db = "{}/{}".format(ruta_actual, "src/bigdata/static/db/ingesta.sqlite3")
 # Llamada a la API
