@@ -1,6 +1,9 @@
 import requests
 import sqlite3
 import json
+import os
+from pathlib import Path
+
 
 def obtener_datos_api(url="", params={}):
     try:
@@ -20,12 +23,16 @@ parametros = {
     "maxResults": 10,      
     "printType": "books"
 }
-
+#ruta_actual = os.getcwd()
+ruta_actual = str(Path.cwd())
+ruta_db = "{}/{}".format(ruta_actual, "src/bigdata/static/db/ingesta.sqlite3")
 # Llamada a la API
 datos = obtener_datos_api(url, parametros)
-
+directorio = os.path.dirname(ruta_db)
+if not os.path.exists(directorio):
+    os.makedirs(directorio, exist_ok=True)
 # Conexión a SQLite
-conexion = sqlite3.connect("ingesta.db")
+conexion = sqlite3.connect(ruta_db)
 cursor = conexion.cursor()
 
 # Creación de tablas
