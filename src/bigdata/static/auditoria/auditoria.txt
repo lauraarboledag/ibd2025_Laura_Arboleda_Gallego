@@ -1,0 +1,6 @@
+Auditoría de extracción de datos
+---------------------------------
+Registros en BD antes de la extracción: 0
+Registros extraídos de la API: 10
+Registros en BD después de la extracción: 10
+Diferencia de registros: 10
