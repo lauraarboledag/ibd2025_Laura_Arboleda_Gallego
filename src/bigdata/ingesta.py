@@ -32,8 +32,8 @@ os.makedirs(directorio_auditoria, exist_ok=True)
 # API de Google Books
 url = "https://www.googleapis.com/books/v1/volumes"
 parametros = {
-    "q": "Juego de tronos",
-    "maxResults": 10,
+    "q": "El señor de los anillos",
+    "maxResults": 30,
     "printType": "books"
 }
 
