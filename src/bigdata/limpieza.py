@@ -36,6 +36,46 @@ df_books_categories = pd.read_sql_query("SELECT * FROM books_categories", conexi
 
 conexion.close()
 
+#Garantizar conexión
+
 print("Libros:", df_books.head())
 print("Autores:", df_authors.head())
 print("Categorías:", df_categories.head())
+
+#Limpieza de datos
+
+# 1️⃣ Eliminar valores nulos o vacíos en las columnas clave
+df_books.dropna(subset=["id", "title"], inplace=True)
+df_authors.dropna(subset=["id", "name"], inplace=True)
+df_categories.dropna(subset=["id", "name"], inplace=True)
+
+# 2️⃣ Eliminar duplicados en autores y categorías
+df_authors.drop_duplicates(subset=["name"], inplace=True)
+df_categories.drop_duplicates(subset=["name"], inplace=True)
+
+# 3️⃣ Normalizar texto: Convertir nombres de autores y categorías a minúsculas y quitar espacios extras
+df_authors["name"] = df_authors["name"].str.strip().str.lower()
+df_categories["name"] = df_categories["name"].str.strip().str.lower()
+df_books["title"] = df_books["title"].str.strip()
+
+# 4️⃣ Verificar integridad de relaciones
+# Filtrar registros de books_authors que no tengan un libro o autor en las tablas principales
+df_books_authors = df_books_authors[
+    df_books_authors["book_id"].isin(df_books["id"]) &
+    df_books_authors["author_id"].isin(df_authors["id"])
+]
+
+# Filtrar registros de books_categories que no tengan un libro o categoría en las tablas principales
+df_books_categories = df_books_categories[
+    df_books_categories["book_id"].isin(df_books["id"]) &
+    df_books_categories["category_id"].isin(df_categories["id"])
+]
+
+# Mostrar resultados de la limpieza
+print("Limpieza completada")
+print("Libros después de la limpieza:", df_books.shape)
+print("Autores después de la limpieza:", df_authors.shape)
+print("Categorías después de la limpieza:", df_categories.shape)
+
+#Exportación de archivos a CSV
+
