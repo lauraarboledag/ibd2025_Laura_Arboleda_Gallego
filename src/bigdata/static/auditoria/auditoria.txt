@@ -1,6 +1,6 @@
-Auditor铆a de extracci贸n de datos
+Auditor韆 de extracci髇 de datos
 ---------------------------------
-Registros en BD antes de la extracci贸n: 20
-Registros extra铆dos de la API: 30
-Registros en BD despu茅s de la extracci贸n: 30
-Diferencia de registros antes y despues de la extracci贸n: 10
+Registros en BD antes de la extracci髇: 30
+Registros extra韉os de la API: 30
+Registros en BD despu閟 de la extracci髇: 30
+Diferencia de registros antes y despues de la extracci髇: 0
