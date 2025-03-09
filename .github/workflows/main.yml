@@ -34,7 +34,7 @@ jobs:
       - name: paso5 - Ejecutar script
         run: python src/bigdata/ingesta.py
 
-      - name: paso6 - Guardar artefactos generados
+      - name: paso6 - Guardar artefactos generados antes de la limpieza.
         uses: actions/upload-artifact@v4
         with:
           name: archivos_ingesta
@@ -45,9 +45,20 @@ jobs:
             src/bigdata/static/auditoria/auditoria.txt
           retention-days: 7
 
-          
       - name: paso7 - Ejecutar limpieza de datos
         run: python src/bigdata/limpieza.py
+      
+      - name: paso8 - Guardar artefactos generados posterior a la limpieza.
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivos_limpiados
+          path: |
+            src/bigdata/static/limpieza/authors.csv
+            src/bigdata/static/limpieza/books_authors.csv
+            src/bigdata/static/limpieza/books_categories.csv
+            src/bigdata/static/limpieza/books.csv
+            src/bigdata/static/limpieza/categories.csv
+          retention-days: 7  
 
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5

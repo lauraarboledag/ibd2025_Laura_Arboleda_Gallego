@@ -77,6 +77,20 @@ print("Libros después de la limpieza:", df_books.shape)
 print("Autores después de la limpieza:", df_authors.shape)
 print("Categorías después de la limpieza:", df_categories.shape)
 
-#Exportación de archivos a CSV
+#-------------Exportación de archivos a CSV--------------
+
+# Definir rutas de exportación
+ruta_salida = f"{ruta_actual}/src/bigdata/static/limpieza"
+os.makedirs(ruta_salida, exist_ok=True)
+
+# Exportar cada DataFrame a CSV
+df_books.to_csv(f"{ruta_salida}/books.csv", index=False, encoding="utf-8")
+df_authors.to_csv(f"{ruta_salida}/authors.csv", index=False, encoding="utf-8")
+df_categories.to_csv(f"{ruta_salida}/categories.csv", index=False, encoding="utf-8")
+df_books_authors.to_csv(f"{ruta_salida}/books_authors.csv", index=False, encoding="utf-8")
+df_books_categories.to_csv(f"{ruta_salida}/books_categories.csv", index=False, encoding="utf-8")
+
+print("Exportación completada. Archivos CSV generados en:", ruta_salida)
+
 
 
