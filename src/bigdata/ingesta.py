@@ -4,6 +4,7 @@ import json
 import os
 import pandas as pd
 from pathlib import Path
+import random
 
 def obtener_datos_api(url="", params={}):
     try:
@@ -167,4 +168,35 @@ with open(ruta_auditoria, "w") as auditoria:
 
 print("Informe de auditoría generado correctamente.")
 
+# Crear datos Null para limpieza de datos
+
+if datos and "items" in datos:
+    for item in datos["items"]:
+        try:
+            book_id = item["id"]
+            title = item["volumeInfo"].get("title", "Desconocido")  
+            description = item["volumeInfo"].get("description", "Desconocido")
+            published_date = item["volumeInfo"].get("publishedDate", "Desconocido")
+
+            # Simular datos nulos aleatoriamente
+            if random.random() < 0.2:  # 20% de registros sin título
+                title = None
+            if random.random() < 0.1:  # 10% sin descripción
+                description = None
+            if random.random() < 0.15:  # 15% sin fecha
+                published_date = None
+
+            # Insertar en SQLite
+            cursor.execute('INSERT OR REPLACE INTO books (id, title, description, publishedDate) VALUES (?, ?, ?, ?)',
+                           (book_id, title, description, published_date))
+
+        except KeyError as e:
+            print(f"Error al procesar un libro: {e}")
+
+    conexion.commit()
+    print("Se han insertado los datos")
+
 conexion.close()
+
+
+

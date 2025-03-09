@@ -34,6 +34,7 @@ df_categories = pd.read_sql_query("SELECT * FROM categories", conexion)
 df_books_authors = pd.read_sql_query("SELECT * FROM books_authors", conexion)
 df_books_categories = pd.read_sql_query("SELECT * FROM books_categories", conexion)
 
+
 conexion.close()
 
 #Garantizar conexión
