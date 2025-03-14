@@ -32,5 +32,21 @@ El siguiente proyecto implementa un sistema de ingesta de datos de una API de Go
 
 **Paso 11 Automatizacion con Github Actions para pruebas ante cambios:** Para garantizar la actualización y verificación de los datos, se ha configurado un workflow en GitHub Actions que se ejecuta automáticamente ante cualquier cambio en el repositorio. Este proceso instala Python y sus dependencias, ejecuta el script de ingesta de datos y verifica la correcta creación de la base de datos, así como la generación de los archivos de muestra y auditoría. Adicionalmente, el workflow almacena los archivos generados (ingesta.sqlite3, export_books.xlsx, export_books.csv y auditoria.txt) como artefactos en GitHub, permitiendo su descarga y análisis. Finalmente, se realiza un commit y push automático de los cambios, asegurando que cada actualización del repositorio refleje los nuevos datos extraídos y procesados.
 
+---------
+Laura Arboleda Gallego, Giordan Jese Ricardo Parra
 
+**INFRAESTRUCTURA DE BIG DATA**
 
+EVIDENCIA DE APRENDIZAJE 2: Limpieza de datos
+
+**Descripción de la solución** 
+
+Siguiendo el desarrollo de la ingesta de los datos de la API de Google Books, esta parte del proyecto realiza el procesamiento de almacenamiento y limpieza de datos previamente obtenidos de la API haciendo uso de la librería Pandas con el fin de normalizar los datos, de manera tal que estos pudieran ser corregidos para una mejor interpretación de los mismos. Para esto se le dio una nueva instrucción a la ingesta de traer 30 datos de un libro en específico para poder hacer su respectiva exploración y su respectiva exportación a formatos CSV, registrando los cambios obtenidos a partir de una auditoría nueva. Permitiendo así la simulación de carga en la nube, utilizando una base de datos local para emular un servicio cloud.
+
+**Instrucciones de uso y metodología**
+
+**Paso 1 Configuración de nuevos directorios:** A diferencia del trabajo anterior que se ejecutó de forma local, por temas de practicidad y evitar fallos locales, se decidió realizar el trabajo a partir del servidor de código de GitHub. Usando el mismo repositorio, primero se deberán descargar las extensiones necesarias tales como: **python**, **sqlite**, **GitHub Actions**, **CSV Rainbow** y por último, un **visualizador de archivos xlsx y CSV** esto con el fin de poder verificar los cambios de las tablas cuando se ejecute la limpieza. Para este trabajo es recomendable trabajar en formato CSV para una mejor visualización. En la carpeta **.github** donde está la carpeta **workflows** tomaremos el archivo **main.yml** donde vamos a añadir dos nuevos pasos de ejecución automatizada. Que es la ejecución del archivo limpieza.py en el que luego vamos a trabajar y después añadiremos otro paso donde cree y ejecute nuevos artefactos, de manera tal que estos queden cargados al finalizar la ejecución. Una vez organizado esto, vamos a ir a la carpeta **src** y donde creamos ingesta.py vamos a crear el archivo **limpieza.py** donde vamos a ejecutar todas las funciones que permitan la limpieza de los datos de la base de datos creada. Luego vamos a crear dentro de **static** una carpeta que se llame **limpieza**, la cual va a contener los archivos CSV de las tablas limpias. En la carpeta **auditoria** se va a crear automáticamente un archivo llamado **limpieza_report.txt** que va a contener informacón sobre los datos corregidos, ya sea la cantidad de duplicados, nulos, y otras correcciones. Con todo preparado, ya se puede comenzar a trabajar. 
+
+**Paso 2 Ensuciar base de datos:** Por la naturaleza de esta API y para poder hacer funcionar este proyecto, vamos a entrar al archivo **ingesta.py** que es la matriz del proyecto y vamos a crear un nuevo apartado que nos permita ensuciar la base de datos con datos nulos. Antes de hacerlo, vamos a importar la librería **random** y antes de cerrar la conexión con SQLite vamos a hacer la petición de que aleatoriamente dentro de las tablas, en cualquier fila o columna, añada datos nulos. Una vez hecho esto, vamos a ejecutar la ingesta, de manera tal que se actualicen las tablas ahora mostrando nulos, así también que se generen en los archivos CSV y xlsx y se refleje en la auditoría y directamente en sqlite. 
+
+**Paso 3 Ejecutar limpieza de datos:** 
