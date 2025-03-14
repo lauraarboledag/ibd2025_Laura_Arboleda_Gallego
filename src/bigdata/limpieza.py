@@ -4,6 +4,8 @@ import json
 import os
 import pandas as pd
 from pathlib import Path
+import unicodedata
+import re
 
 #Configuración preventiva de rutas
 
@@ -33,7 +35,6 @@ df_authors = pd.read_sql_query("SELECT * FROM authors", conexion)
 df_categories = pd.read_sql_query("SELECT * FROM categories", conexion)
 df_books_authors = pd.read_sql_query("SELECT * FROM books_authors", conexion)
 df_books_categories = pd.read_sql_query("SELECT * FROM books_categories", conexion)
-
 
 conexion.close()
 
@@ -72,8 +73,46 @@ df_books_categories = df_books_categories[
     df_books_categories["category_id"].isin(df_categories["id"])
 ]
 
-# Normalizar las fechas de publicación a solo el año
-df_books["publishedDate"] = df_books["publishedDate"].astype(str).replace("nan", "Desconocido")
+# Normalizar nombres de autores con mayúscula inicial
+df_authors["name"] = df_authors["name"].str.title()
+
+# Normalizar nombres de autores con mayúscula inicial
+df_categories["name"] = df_categories["name"].str.title()
+
+# Función para limpiar y normalizar correctamente el texto
+
+def normalizar_texto(texto):
+    if isinstance(texto, str):  
+        texto = texto.strip()  
+        texto = unicodedata.normalize("NFC", texto) 
+        texto = texto.lower().title() 
+    return texto
+
+# Aplicar la función de normalización a los títulos de los libros
+df_books["title"] = df_books["title"].apply(normalizar_texto)
+
+# Verificar si quedan títulos incorrectos
+print(df_books["title"].unique())  
+
+# Reemplazar valores vacíos o nulos en la columna 'description' por "Desconocido"
+df_books["description"] = df_books["description"].fillna("Desconocido").replace(r'^\s*$', "Desconocido", regex=True)
+
+# Verificar si quedan valores vacíos
+print(df_books[df_books["description"] == "Desconocido"])
+
+#Corregir valores de fecha por sólo el año
+
+def extraer_anio(fecha):
+    if pd.isna(fecha) or fecha in ["None", "null", ""]:
+        return "Desconocido"
+    match = re.search(r"\d{4}", str(fecha))  # Busca un patrón de 4 dígitos (año)
+    return match.group(0) if match else "Desconocido"
+
+# Aplicar la función a la columna
+df_books["publishedDate"] = df_books["publishedDate"].apply(extraer_anio)
+
+# Verificar resultados
+print(df_books["publishedDate"].value_counts())
 
 # Mostrar resultados de la limpieza
 print("Limpieza completada")
