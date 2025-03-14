@@ -72,11 +72,16 @@ df_books_categories = df_books_categories[
     df_books_categories["category_id"].isin(df_categories["id"])
 ]
 
+# Normalizar las fechas de publicación a solo el año
+df_books["publishedDate"] = df_books["publishedDate"].astype(str).replace("nan", "Desconocido")
+
 # Mostrar resultados de la limpieza
 print("Limpieza completada")
 print("Libros después de la limpieza:", df_books.shape)
 print("Autores después de la limpieza:", df_authors.shape)
 print("Categorías después de la limpieza:", df_categories.shape)
+print("Fechas convertidas a solo año correctamente.")
+print(df_books[["id", "title", "publishedDate"]].head())
 
 #-------------Exportación de archivos a CSV--------------
 
