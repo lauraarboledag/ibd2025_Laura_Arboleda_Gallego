@@ -58,6 +58,7 @@ jobs:
             src/bigdata/static/limpieza/books_categories.csv
             src/bigdata/static/limpieza/books.csv
             src/bigdata/static/limpieza/categories.csv
+            src/bigdata/static/auditoria/auditoria_limpieza.txt
           retention-days: 7  
 
       - name: Commit and Push changes

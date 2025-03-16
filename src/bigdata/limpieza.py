@@ -6,6 +6,7 @@ import pandas as pd
 from pathlib import Path
 import unicodedata
 import re
+from datetime import datetime
 
 #Configuración preventiva de rutas
 
@@ -13,7 +14,8 @@ ruta_actual = str(Path.cwd())
 ruta_db = f"{ruta_actual}/src/bigdata/static/db/ingesta.sqlite3"
 ruta_excel = f"{ruta_actual}/src/bigdata/static/xlsx/export_books.xlsx"
 ruta_csv = f"{ruta_actual}/src/bigdata/static/xlsx/export_books.csv"
-ruta_auditoria = f"{ruta_actual}/src/bigdata/static/auditoria/auditoria.txt"
+ruta_auditoria = f"{ruta_actual}/src/bigdata/static/auditoria/auditoria_limpieza.txt"
+ruta_salida = f"{ruta_actual}/src/bigdata/static/limpieza"
 
 
 # Crear directorios si no existen
@@ -43,6 +45,20 @@ conexion.close()
 print("Libros:", df_books.head())
 print("Autores:", df_authors.head())
 print("Categorías:", df_categories.head())
+
+# Registros antes de la limpieza
+registros_antes = {
+    "books": len(df_books),
+    "authors": len(df_authors),
+    "categories": len(df_categories),
+    "books_authors": len(df_books_authors),
+    "books_categories": len(df_books_categories)
+}
+
+# Guardar ejemplos antes de la limpieza
+ejemplo_books_before = df_books.head(3)
+ejemplo_authors_before = df_authors.head(3)
+ejemplo_categories_before = df_categories.head(3)
 
 #Limpieza de datos
 
@@ -115,27 +131,91 @@ df_books["publishedDate"] = df_books["publishedDate"].apply(extraer_anio)
 print(df_books["publishedDate"].value_counts())
 
 # Mostrar resultados de la limpieza
-print("Limpieza completada")
-print("Libros después de la limpieza:", df_books.shape)
-print("Autores después de la limpieza:", df_authors.shape)
-print("Categorías después de la limpieza:", df_categories.shape)
-print("Fechas convertidas a solo año correctamente.")
-print(df_books[["id", "title", "publishedDate"]].head())
+print("-----------------Limpieza completada------------------")
+
+# Registros después de la limpieza
+registros_despues = {
+    "books": len(df_books),
+    "authors": len(df_authors),
+    "categories": len(df_categories),
+    "books_authors": len(df_books_authors),
+    "books_categories": len(df_books_categories)
+}
+
+# Guardar ejemplos después de la limpieza
+ejemplo_books_after = df_books.head(3)
+ejemplo_authors_after = df_authors.head(3)
+ejemplo_categories_after = df_categories.head(3)
 
 #-------------Exportación de archivos a CSV--------------
 
-# Definir rutas de exportación
-ruta_salida = f"{ruta_actual}/src/bigdata/static/limpieza"
-os.makedirs(ruta_salida, exist_ok=True)
+# Generar archivo de auditoría
+with open(ruta_auditoria, "w", encoding="utf-8") as f:
+    f.write(f"Auditoría de limpieza de datos - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    f.write("="*60 + "\n\n")
+    f.write("Registros antes y después de la limpieza:\n")
+    for tabla in registros_antes.keys():
+        f.write(f"- {tabla}: {registros_antes[tabla]} → {registros_despues[tabla]}\n")
+    f.write("\nOperaciones realizadas:\n")
+    f.write("- Eliminación de valores nulos en 'id' y nombres.\n")
+    f.write("- Eliminación de duplicados en nombres de autores y categorías.\n")
+    f.write("- Normalización de nombres (trim, minúsculas/título).\n")
+    f.write("- Verificación de integridad en relaciones books_authors y books_categories.\n")
+    f.write("- Sustitución de valores vacíos en 'description' por 'Desconocido'.\n")
+    f.write("- Extracción del año de 'publishedDate'.\n")
+    
 
-# Exportar cada DataFrame a CSV
+
+
+    def escribir_tabla(f, titulo, df_before, df_after):
+        f.write(f"\n{titulo}\n")
+        f.write("="*80 + "\n")
+        f.write("ANTES".ljust(40) + " | " + "DESPUÉS\n")
+        f.write("-"*80 + "\n")
+        
+        before_lines = df_before.to_string(index=False).split("\n")
+        after_lines = df_after.to_string(index=False).split("\n")
+        
+        for before, after in zip(before_lines, after_lines):
+            f.write(before.ljust(40) + " | " + after + "\n")
+        
+        f.write("="*80 + "\n")
+
+    escribir_tabla(f, "Libros", ejemplo_books_before, ejemplo_books_after)
+    escribir_tabla(f, "Autores", ejemplo_authors_before, ejemplo_authors_after)
+    escribir_tabla(f, "Categorías", ejemplo_categories_before, ejemplo_categories_after)
+
+    # f.write("\nEjemplo de datos antes y después de la limpieza:\n")
+
+    # # Comparación directa antes y después con conversión a string
+    # f.write("\nLibros:\n")
+    # f.write("Antes:\n")
+    # f.write(f"{ejemplo_books_before.to_string(index=False)}\n")
+    # f.write("Después:\n")
+    # f.write(f"{ejemplo_books_after.to_string(index=False)}\n")
+
+    # f.write("\nAutores:\n")
+    # f.write("Antes:\n")
+    # f.write(f"{ejemplo_authors_before.to_string(index=False)}\n")
+    # f.write("Después:\n")
+    # f.write(f"{ejemplo_authors_after.to_string(index=False)}\n")
+
+    # f.write("\nCategorías:\n")
+    # f.write("Antes:\n")
+    # f.write(f"{ejemplo_categories_before.to_string(index=False)}\n")
+    # f.write("Después:\n")
+    # f.write(f"{ejemplo_categories_after.to_string(index=False)}\n")
+
+# Exportar a CSV
 df_books.to_csv(f"{ruta_salida}/books.csv", index=False, encoding="utf-8")
 df_authors.to_csv(f"{ruta_salida}/authors.csv", index=False, encoding="utf-8")
 df_categories.to_csv(f"{ruta_salida}/categories.csv", index=False, encoding="utf-8")
 df_books_authors.to_csv(f"{ruta_salida}/books_authors.csv", index=False, encoding="utf-8")
 df_books_categories.to_csv(f"{ruta_salida}/books_categories.csv", index=False, encoding="utf-8")
 
+print("Limpieza completada. Auditoría generada en:", ruta_auditoria)
 print("Exportación completada. Archivos CSV generados en:", ruta_salida)
+
 
 
 

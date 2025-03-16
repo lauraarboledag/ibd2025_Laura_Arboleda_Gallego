@@ -1,0 +1,47 @@
+Auditoría de limpieza de datos - 2025-03-16 10:20:06
+============================================================
+
+Registros antes y después de la limpieza:
+- books: 30 → 24
+- authors: 7 → 7
+- categories: 16 → 16
+- books_authors: 30 → 24
+- books_categories: 16 → 14
+
+Operaciones realizadas:
+- Eliminación de valores nulos en 'id' y nombres.
+- Eliminación de duplicados en nombres de autores y categorías.
+- Normalización de nombres (trim, minúsculas/título).
+- Verificación de integridad en relaciones books_authors y books_categories.
+- Sustitución de valores vacíos en 'description' por 'Desconocido'.
+- Extracción del año de 'publishedDate'.
+
+Libros
+================================================================================
+ANTES                                    | DESPUÉS
+--------------------------------------------------------------------------------
+          id                   title                                                                                                                                     description publishedDate |           id                            title description publishedDate
+ld5GswEACAAJ                    None Frodo the hobbit and a band of warriors from the different kingdoms set out to destroy the Ring of Power before the evil Sauron grasps control.          2005 | 5XWXuQAACAAJ          El Señor De Los Anillos Desconocido          1993
+5XWXuQAACAAJ El señor de los anillos                                                                                                                                            None          1993 | LCZvVRqH-m8C          El Señor De Los Anillos Desconocido          1999
+LCZvVRqH-m8C El señor de los anillos                                                                                                                                     Desconocido       1999-05 | JUdOAAAACAAJ The Lord Of The Rings Sketchbook Desconocido          2005
+================================================================================
+
+Autores
+================================================================================
+ANTES                                    | DESPUÉS
+--------------------------------------------------------------------------------
+ id                      name            |  id                      name
+550 John Ronald Reuel Tolkien            | 550 John Ronald Reuel Tolkien
+551          J. R. R. Tolkien            | 551          J. R. R. Tolkien
+552                  Alan Lee            | 552                  Alan Lee
+================================================================================
+
+Categorías
+================================================================================
+ANTES                                    | DESPUÉS
+--------------------------------------------------------------------------------
+ id           name                       |  id           name
+  1        Fiction                       |   1        Fiction
+  2 Social Science                       |   2 Social Science
+  4     Philosophy                       |   4     Philosophy
+================================================================================
