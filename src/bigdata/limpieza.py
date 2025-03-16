@@ -185,26 +185,6 @@ with open(ruta_auditoria, "w", encoding="utf-8") as f:
     escribir_tabla(f, "Autores", ejemplo_authors_before, ejemplo_authors_after)
     escribir_tabla(f, "Categorías", ejemplo_categories_before, ejemplo_categories_after)
 
-    # f.write("\nEjemplo de datos antes y después de la limpieza:\n")
-
-    # # Comparación directa antes y después con conversión a string
-    # f.write("\nLibros:\n")
-    # f.write("Antes:\n")
-    # f.write(f"{ejemplo_books_before.to_string(index=False)}\n")
-    # f.write("Después:\n")
-    # f.write(f"{ejemplo_books_after.to_string(index=False)}\n")
-
-    # f.write("\nAutores:\n")
-    # f.write("Antes:\n")
-    # f.write(f"{ejemplo_authors_before.to_string(index=False)}\n")
-    # f.write("Después:\n")
-    # f.write(f"{ejemplo_authors_after.to_string(index=False)}\n")
-
-    # f.write("\nCategorías:\n")
-    # f.write("Antes:\n")
-    # f.write(f"{ejemplo_categories_before.to_string(index=False)}\n")
-    # f.write("Después:\n")
-    # f.write(f"{ejemplo_categories_after.to_string(index=False)}\n")
 
 # Exportar a CSV
 df_books.to_csv(f"{ruta_salida}/books.csv", index=False, encoding="utf-8")

@@ -1,12 +1,12 @@
-Auditoría de limpieza de datos - 2025-03-16 10:20:06
+Auditoría de limpieza de datos - 2025-03-16 10:49:00
 ============================================================
 
 Registros antes y después de la limpieza:
-- books: 30 → 24
-- authors: 7 → 7
+- books: 30 → 26
+- authors: 8 → 8
 - categories: 16 → 16
-- books_authors: 30 → 24
-- books_categories: 16 → 14
+- books_authors: 30 → 26
+- books_categories: 16 → 13
 
 Operaciones realizadas:
 - Eliminación de valores nulos en 'id' y nombres.
@@ -20,10 +20,10 @@ Libros
 ================================================================================
 ANTES                                    | DESPUÉS
 --------------------------------------------------------------------------------
-          id                   title                                                                                                                                     description publishedDate |           id                            title description publishedDate
-ld5GswEACAAJ                    None Frodo the hobbit and a band of warriors from the different kingdoms set out to destroy the Ring of Power before the evil Sauron grasps control.          2005 | 5XWXuQAACAAJ          El Señor De Los Anillos Desconocido          1993
-5XWXuQAACAAJ El señor de los anillos                                                                                                                                            None          1993 | LCZvVRqH-m8C          El Señor De Los Anillos Desconocido          1999
-LCZvVRqH-m8C El señor de los anillos                                                                                                                                     Desconocido       1999-05 | JUdOAAAACAAJ The Lord Of The Rings Sketchbook Desconocido          2005
+          id                      title                                                                                                                                                                                  description publishedDate |           id                      title                                                                                                                                                                                  description publishedDate
+ld5GswEACAAJ The Fellowship of the Ring                                              Frodo the hobbit and a band of warriors from the different kingdoms set out to destroy the Ring of Power before the evil Sauron grasps control.          2005 | ld5GswEACAAJ The Fellowship Of The Ring                                              Frodo the hobbit and a band of warriors from the different kingdoms set out to destroy the Ring of Power before the evil Sauron grasps control.          2005
+5XWXuQAACAAJ    El señor de los anillos Cuatro volúmenes en uno.Incluye los mapas y apéndices originales de J.R.R. Tolkien, y un índice de canciones, nombres de personajes, lugares y cosas. 50 ilustraciones en color de Alan Lee.          1993 | 5XWXuQAACAAJ    El Señor De Los Anillos Cuatro volúmenes en uno.Incluye los mapas y apéndices originales de J.R.R. Tolkien, y un índice de canciones, nombres de personajes, lugares y cosas. 50 ilustraciones en color de Alan Lee.          1993
+LCZvVRqH-m8C    El señor de los anillos                                                                                                                                                                                  Desconocido       1999-05 | LCZvVRqH-m8C    El Señor De Los Anillos                                                                                                                                                                                  Desconocido          1999
 ================================================================================
 
 Autores
@@ -31,9 +31,9 @@ Autores
 ANTES                                    | DESPUÉS
 --------------------------------------------------------------------------------
  id                      name            |  id                      name
-550 John Ronald Reuel Tolkien            | 550 John Ronald Reuel Tolkien
-551          J. R. R. Tolkien            | 551          J. R. R. Tolkien
-552                  Alan Lee            | 552                  Alan Lee
+580 John Ronald Reuel Tolkien            | 580 John Ronald Reuel Tolkien
+581          J. R. R. Tolkien            | 581          J. R. R. Tolkien
+582                  Alan Lee            | 582                  Alan Lee
 ================================================================================
 
 Categorías
