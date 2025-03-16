@@ -1,4 +1,4 @@
-Auditoría de limpieza de datos - 2025-03-16 10:49:00
+Auditoría de limpieza de datos - 2025-03-16 10:55:33
 ============================================================
 
 Registros antes y después de la limpieza:
