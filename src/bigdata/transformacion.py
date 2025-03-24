@@ -47,7 +47,7 @@ except Exception as e:
     raise
 
 # Seleccionamos solo las columnas relevantes del dataset adicional
-ratings_data = df_additional[['Book_ratings_count', 'Book_average_rating']]
+ratings_data = df_additional[['Book_ratings_count', 'Book_average_rating', 'gross sales']]
 
 # Resetear índices para asegurar alineación secuencial
 df_cleaned = df_cleaned.reset_index(drop=True)
@@ -57,6 +57,7 @@ ratings_data = ratings_data.reset_index(drop=True)
 try:
     df_cleaned['Book_ratings_count'] = ratings_data['Book_ratings_count']
     df_cleaned['Book_average_rating'] = ratings_data['Book_average_rating']
+    df_cleaned['gross sales'] = ratings_data['gross sales']
     print("Columnas de ratings añadidas correctamente.")
 except Exception as e:
     print(f"Error al añadir las columnas de ratings: {e}")
