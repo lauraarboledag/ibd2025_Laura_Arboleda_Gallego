@@ -61,6 +61,9 @@ jobs:
             src/bigdata/static/auditoria/auditoria_limpieza.txt
           retention-days: 7  
 
+      - name: paso9 - Ejecutar y crear Transformaciones
+        run: python src/bigdata/transformacion.py
+
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
