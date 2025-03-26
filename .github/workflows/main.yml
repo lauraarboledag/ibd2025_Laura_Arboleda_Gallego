@@ -61,12 +61,13 @@ jobs:
             src/bigdata/static/auditoria/auditoria_limpieza.txt
           retention-days: 7  
 
-      - name: Paso8.5 - Configurar Kaggle
+      - name: Configurar credenciales de Kaggle
         run: |
           mkdir -p ~/.kaggle
-          echo "${{ secrets.KAGGLE_JSON }}" > ~/.kaggle/kaggle.json
+          echo "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
-        shell: bash
+        env:
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
 
       - name: paso9 - Ejecutar y crear Transformaciones
         run: python src/bigdata/transformacion.py
