@@ -1,8 +1,7 @@
 import pandas as pd
 import traceback
-import shutil
-import kagglehub
 import os
+
 
 # Ruta del dataset limpio
 ruta_dataset_limpio = "src/bigdata/static/limpieza/books.csv"
@@ -15,31 +14,12 @@ except Exception as e:
     print(f"Error al cargar el dataset limpio: {e}")
     raise
 
-# Cargar el dataset adicional desde Kaggle
-try:
-    path = kagglehub.dataset_download("thedevastator/books-sales-and-ratings")
-    print(f"Dataset adicional descargado correctamente en: {path}")
-    print(f"Archivos descargados: {os.listdir(path)}")
-    
-    # Mover archivos a una carpeta accesible si es necesario
-    destino = "/tmp"
-    if not os.path.exists(destino):
-        os.makedirs(destino)
-    for archivo in os.listdir(path):
-        shutil.move(os.path.join(path, archivo), destino)
-    path = destino  # Actualizar la ruta para reflejar el destino
-    print(f"Archivos movidos a: {destino}")
-except Exception as e:
-    print(f"Error al descargar el dataset adicional: {e}")
-    print("Detalle del error:", traceback.format_exc())
-    raise
+# Ruta del dataset adicional descargado manualmente
+ruta_dataset_adicional = "src/dataset_etl/books-sales-and-ratings.csv"
 
-# Ruta del archivo dentro del dataset descargado
-ruta_dataset_transformacion = os.path.join(path, "Books_Data_Clean.csv")
-
-# Cargar el archivo adicional
+# Cargar el dataset adicional desde la carpeta
 try:
-    df_additional = pd.read_csv(ruta_dataset_transformacion, encoding="utf-8")
+    df_additional = pd.read_csv(ruta_dataset_adicional, encoding="utf-8")
     print("Dataset adicional cargado correctamente.")
 except Exception as e:
     print(f"Error al cargar el dataset adicional: {e}")
