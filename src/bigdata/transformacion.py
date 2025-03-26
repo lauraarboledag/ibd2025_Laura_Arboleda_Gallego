@@ -1,7 +1,6 @@
 import pandas as pd
-import traceback
+import kagglehub
 import os
-
 
 # Ruta del dataset limpio
 ruta_dataset_limpio = "src/bigdata/static/limpieza/books.csv"
@@ -14,16 +13,23 @@ except Exception as e:
     print(f"Error al cargar el dataset limpio: {e}")
     raise
 
-# Ruta del dataset adicional descargado manualmente
-ruta_dataset_adicional = "src/dataset_etl/books-sales-and-ratings.csv"
-
-# Cargar el dataset adicional desde la carpeta
+# Cargar el dataset adicional desde Kaggle
 try:
-    df_additional = pd.read_csv(ruta_dataset_adicional, encoding="utf-8")
+    path = kagglehub.dataset_download("thedevastator/books-sales-and-ratings")
+    print("Dataset adicional descargado correctamente.")
+except Exception as e:
+    print(f"Error al descargar el dataset adicional: {e}")
+    raise
+
+# Ruta del archivo dentro del dataset descargado
+ruta_dataset_transformacion = os.path.join(path, "Books_Data_Clean.csv")
+
+# Cargar el archivo adicional
+try:
+    df_additional = pd.read_csv(ruta_dataset_transformacion)
     print("Dataset adicional cargado correctamente.")
 except Exception as e:
     print(f"Error al cargar el dataset adicional: {e}")
-    print("Detalle del error:", traceback.format_exc())
     raise
 
 # Generar claves compuestas en el dataset limpio
