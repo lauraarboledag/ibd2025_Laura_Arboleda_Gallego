@@ -1,5 +1,6 @@
 import pandas as pd
 import traceback
+import shutil
 import kagglehub
 import os
 
@@ -16,9 +17,18 @@ except Exception as e:
 
 # Cargar el dataset adicional desde Kaggle
 try:
-    path = kagglehub.dataset_download("thedevastator/books-sales-and-ratings", target_dir="/tmp")
+    path = kagglehub.dataset_download("thedevastator/books-sales-and-ratings")
     print(f"Dataset adicional descargado correctamente en: {path}")
     print(f"Archivos descargados: {os.listdir(path)}")
+    
+    # Mover archivos a una carpeta accesible si es necesario
+    destino = "/tmp"
+    if not os.path.exists(destino):
+        os.makedirs(destino)
+    for archivo in os.listdir(path):
+        shutil.move(os.path.join(path, archivo), destino)
+    path = destino  # Actualizar la ruta para reflejar el destino
+    print(f"Archivos movidos a: {destino}")
 except Exception as e:
     print(f"Error al descargar el dataset adicional: {e}")
     print("Detalle del error:", traceback.format_exc())
