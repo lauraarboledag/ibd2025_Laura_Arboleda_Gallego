@@ -62,10 +62,10 @@ jobs:
           retention-days: 7  
 
       - name: Configurar credenciales de Kaggle
+        env:  
+          SESSION_TOKEN: ${{ secrets.KAGGLE_JSON }}
         run: |
-          mkdir -p ~/.kaggle
-          echo "${{ secrets.KAGGLE_JSON }}" > ~/.kaggle/kaggle.json
-          chmod 600 ~/.kaggle/kaggle.json
+          echo "funciona el secreto"
 
       - name: paso9 - Ejecutar y crear transformaciones
         run: python src/bigdata/transformacion.py

@@ -3,8 +3,9 @@ import kagglehub
 import os
 
 # Configurar la ruta del archivo kaggle.json
-KAGGLE_CONFIG_DIR = os.path.join(os.path.dirname(__file__), "../../config")
-os.environ["KAGGLE_CONFIG_DIR"] = KAGGLE_CONFIG_DIR
+token = os.environ.get("SESSION_TOKEN")
+# KAGGLE_CONFIG_DIR = os.path.join(os.path.dirname(__file__), "../../config")
+# os.environ["KAGGLE_CONFIG_DIR"] = KAGGLE_CONFIG_DIR
 
 # Ruta del dataset limpio
 ruta_dataset_limpio = "src/bigdata/static/limpieza/books.csv"
