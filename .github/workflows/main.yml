@@ -63,9 +63,9 @@ jobs:
 
       - name: Configurar credenciales de Kaggle
         run: |
-          mkdir -p ~/.kaggle
-          echo "${{ secrets.KAGGLE_JSON }}" > ~/.kaggle/kaggle.json
-          chmod 600 ~/.kaggle/kaggle.json
+          mkdir -p /.config
+          echo "${{ secrets.CONFIG }}" > .config/kaggle.json
+          chmod 600 .config/kaggle.json
 
       - name: paso9 - Ejecutar y crear transformaciones
         run: python src/bigdata/transformacion.py
