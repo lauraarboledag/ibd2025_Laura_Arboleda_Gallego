@@ -58,6 +58,17 @@ Laura Arboleda Gallego, Giordan Jese Ricardo Parra
 
 **INFRAESTRUCTURA DE BIG DATA**
 
-EVIDENCIA DE APRENDIZAJE 3: Limpieza de datos
+EVIDENCIA DE APRENDIZAJE 3: Enriquecimiento de Datos en Plataforma de Big Data en la Nube
 
 **Descripción de la solución** 
+
+Siguiendo cierta linealidad en el proyecto respecto a la manipulación y modificación los datos de la API de Google Books, esta parte del proyecto realiza el procesamiento de enriquecimiento de los datos de la API a partir de un nuevo DataFrame de Ratings de libros,haciendo uso de uso de la librería Pandas y vinculaciones a la plataforma Kaggle a partir de autenticación de Tokens con el fin de complementar los datos en la tabla principal Books, enriqueciendo su información para ampliar el análisis. Esto se ha realizado a partir de la tabla Books ya completamente limpia, integrando con fuertes externas información adicional y a partir de claves externar unir información que la tabla original y la adicional tienen en común.
+
+**Instrucciones de uso y metodología**
+
+**Paso 1 Configuración de nuevos directorios y archivos:** Como siempre, antes de iniciar cualquier proyecto debemos crear nuevos directorios. En esta ocasión no haremos tantos como antes. Primero crearemos, como lo hicimos con la ingesta y la limpieza un archivo llamado **transformacion.py** en este archivo vamos a hacer el proceso de ensamble o de unión de la tabla de interés limpia, que será **Books.CSV** y un dataset de Kaggle llamado **Books Sales and Ratings**, donde nos van a interesar los valores **Book Name** y **Publishing Year** como las columnas claves compuestas con las columnas **date** y **title** en la tabla Books. Y **Book_average_rating**, **gross sales** y **Book_ratings_count** como columnas complementarias a la tabla Books. Todo esto lo haremos a partir de **pd.marge()** en pandas para unir los dos datasets y crear las claves. Ahora bien, ya con esto listo y explicado, ya las carpetas **xlsx** y de **auditoria** permanecerían tal y como están y estas sólo van a recibir el dataset combinado o transformado en formato **CSV** y la auditoría que contenga la automatización y alojamiento en GitHub Actions a través del flujo. 
+
+**Paso 2 Configuración y autenticación de DataSet Adicional con Kaggle:** Esta parte es la más importante del proyecto. A pesar de que se puede hacer sólo descargando el dataset y ponerlo en una carpeta, es importante considerar la automatización y la practicidad del código a partir de Actions, por lo que lo más recomendable es utilizar una autenticación por token. En Kaggle se nos va a dar un token de formato **.JSON** donde se va a contener el usuario de Kaggle y una **key**. No obstante, este archivo es de caracter confidencial, por lo que se debe registrar el contenido del archivo como un **SECRET** de GitHub dentro de Actions, de esta manera cuando el repositorio se cargue no va a mostrarse entre los archivos, pero Actions sí que lo va a hacer y haría la vinculación desde el flujo. Algo a recalcar es que para que funcione en el **setup.py** debemos incluir la librería **Kaggle** para que lo descargue automáticamente cuando se cargue el flujo. 
+
+
+**Paso 3 Auditoria:** 
