@@ -1,0 +1,10 @@
+Auditoría de transformación de datos
+============================================================
+Fecha y hora: 2025-03-31 01:44:41
+
+Registros en dataset limpio antes de transformación: 26
+Dataset adicional descargado correctamente.
+Registros en dataset adicional antes de transformación: 1070
+Registros combinados después de transformación: 0
+Columnas de ratings añadidas correctamente.
+Archivo transformado guardado en: src/bigdata/static/xlsx/books_transformacion_data.csv
