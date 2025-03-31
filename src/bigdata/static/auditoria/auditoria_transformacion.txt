@@ -1,0 +1,18 @@
+
+AUDITORÍA DE TRANSFORMACIÓN DE DATOS
+
+Columnas Agregadas:
+gross sales, Book_average_rating, Book_ratings_count
+
+Columnas Eliminadas:
+Ninguna
+
+Total de registros en el dataset final: 19
+
+Registros efectivamente actualizados con nuevas columnas: 19
+
+Ejemplo de registro ANTES de la transformación:
+{'id': 'ld5GswEACAAJ', 'title': 'The Fellowship Of The Ring', 'description': 'Frodo the hobbit and a band of warriors from the different kingdoms set out to destroy the Ring of Power before the evil Sauron grasps control.', 'publishedDate': 'Desconocido', 'clave_compuesta': 'the fellowship of the ring_Desconocido'}
+
+Ejemplo de registro DESPUÉS de la transformación:
+{'id': 'ld5GswEACAAJ', 'title': 'The Fellowship Of The Ring', 'description': 'Frodo the hobbit and a band of warriors from the different kingdoms set out to destroy the Ring of Power before the evil Sauron grasps control.', 'publishedDate': 'Desconocido', 'clave_compuesta': 'the fellowship of the ring_Desconocido', 'Book_ratings_count': 155903, 'Book_average_rating': 3.42, 'gross sales': 34160.0}
