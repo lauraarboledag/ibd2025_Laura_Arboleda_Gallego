@@ -70,6 +70,15 @@ jobs:
       - name: paso9 - Ejecutar y crear transformaciones
         run: python src/bigdata/transformacion.py
 
+      - name: paso10 - Guardar artefactos de transformación
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivos_transformacion
+          path: |
+            src/bigdata/static/xlsx/books_transformacion_data.csv
+            src/bigdata/static/auditoria/auditoria_transformacion.txt
+          retention-days: 7
+
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
