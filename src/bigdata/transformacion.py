@@ -16,12 +16,6 @@ except Exception as e:
     print(f"Error al cargar el dataset limpio: {e}")
     raise
 
-# Guardar el número de registros antes del proceso
-registros_antes_proceso = len(df_cleaned)
-
-# Guardar un ejemplo de registro antes del merge (solo datos originales)
-ejemplo_antes_merge = df_cleaned.iloc[0].to_dict()
-
 # Cargar el dataset adicional desde Kaggle
 try:
     path = kagglehub.dataset_download("thedevastator/books-sales-and-ratings")
@@ -55,18 +49,12 @@ except Exception as e:
     print(f"Error al combinar los datasets: {e}")
     raise
 
-# Seleccionar solo las columnas relevantes del dataset adicional
+# Seleccionamos solo las columnas relevantes del dataset adicional
 ratings_data = df_additional[['Book_ratings_count', 'Book_average_rating', 'gross sales']]
 
 # Resetear índices para asegurar alineación secuencial
 df_cleaned = df_cleaned.reset_index(drop=True)
 ratings_data = ratings_data.reset_index(drop=True)
-
-# Guardar un registro después del merge (aún sin agregar ratings)
-ejemplo_despues_merge = df_merged.iloc[0].to_dict()
-
-# Obtener las columnas antes de agregar las nuevas
-columnas_antes = set(df_cleaned.columns)
 
 # Añadir las columnas de ratings al dataset limpio
 try:
@@ -78,24 +66,8 @@ except Exception as e:
     print(f"Error al añadir las columnas de ratings: {e}")
     raise
 
-# Contar cuántos registros se actualizaron efectivamente
-registros_actualizados = df_cleaned[['Book_ratings_count', 'Book_average_rating', 'gross sales']].notnull().all(axis=1).sum()
-
-# Guardar el número de registros después del proceso
-registros_despues_proceso = len(df_cleaned)
-
-# Obtener las columnas después de la transformación
-columnas_despues = set(df_cleaned.columns)
-columnas_agregadas = columnas_despues - columnas_antes
-columnas_eliminadas = columnas_antes - columnas_despues
-
-# Guardar un registro después de la transformación final
-ejemplo_despues_transformacion = df_cleaned.iloc[0].to_dict()
-
-# Ruta de salida para el dataset enriquecido
-ruta_output_ratings = "src/bigdata/static/xlsx/books_transformacion_data.csv"
-
 # Exportar el dataset enriquecido a un nuevo archivo CSV
+ruta_output_ratings = "src/bigdata/static/xlsx/books_transformacion_data.csv"
 try:
     df_cleaned.to_csv(ruta_output_ratings, index=False)
     print(f"Archivo con ratings añadido guardado en: {ruta_output_ratings}")
@@ -103,37 +75,11 @@ except Exception as e:
     print(f"Error al guardar el archivo enriquecido: {e}")
     raise
 
-# Ruta del archivo de auditoría
+# Crear un archivo de auditoría vacío
 ruta_output_auditoria = "src/bigdata/static/auditoria/auditoria_transformacion.txt"
-
-# Formatear el contenido de la auditoría
-contenido_auditoria = f"""
-AUDITORÍA DE TRANSFORMACIÓN DE DATOS
-
-Registros antes del proceso: {registros_antes_proceso}
-Registros después del proceso: {registros_despues_proceso}
-Registros efectivamente actualizados con nuevas columnas: {registros_actualizados}
-
-Columnas Agregadas:
-{', '.join(columnas_agregadas) if columnas_agregadas else 'Ninguna'}
-
-Columnas Eliminadas:
-{', '.join(columnas_eliminadas) if columnas_eliminadas else 'Ninguna'}
-
-Ejemplo de registro ANTES del merge (solo datos originales):
-{ejemplo_antes_merge}
-
-Ejemplo de registro DESPUÉS del merge (sin nuevas columnas):
-{ejemplo_despues_merge}
-
-Ejemplo de registro DESPUÉS de la transformación (con nuevas columnas):
-{ejemplo_despues_transformacion}
-"""
-
-# Guardar el archivo de auditoría
 try:
     with open(ruta_output_auditoria, "w", encoding="utf-8") as file:
-        file.write(contenido_auditoria)
-    print(f"Auditoría guardada en: {ruta_output_auditoria}")
+        file.write("")  # Archivo vacío
+    print(f"Archivo de auditoría vacío guardado en: {ruta_output_auditoria}")
 except Exception as e:
-    print(f"Error al guardar la auditoría: {e}")
+    print(f"Error al guardar el archivo de auditoría: {e}")
