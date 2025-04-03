@@ -94,34 +94,16 @@ except Exception as e:
     print(f"Error al guardar el archivo enriquecido: {e}")
     raise
 
-# Ruta del archivo de auditoría
-ruta_output_auditoria = "src/bigdata/static/auditoria/auditoria_transformacion.txt"
-
-# Formatear el contenido de la auditoría
-contenido_auditoria = f"""
-AUDITORÍA DE TRANSFORMACIÓN DE DATOS
-
-Columnas Agregadas:
-{', '.join(columnas_agregadas) if columnas_agregadas else 'Ninguna'}
-
-Columnas Eliminadas:
-{', '.join(columnas_eliminadas) if columnas_eliminadas else 'Ninguna'}
-
-Total de registros en el dataset final: {len(df_cleaned)}
-
-Registros efectivamente actualizados con nuevas columnas: {registros_actualizados}
-
-Ejemplo de registro ANTES de la transformación:
-{ejemplo_antes}
-
-Ejemplo de registro DESPUÉS de la transformación:
-{ejemplo_despues}
-"""
-
-# Guardar el archivo de auditoría
-try:
-    with open(ruta_output_auditoria, "w", encoding="utf-8") as file:
-        file.write(contenido_auditoria)
-    print(f"Auditoría guardada en: {ruta_output_auditoria}")
-except Exception as e:
-    print(f"Error al guardar la auditoría: {e}")
+# Mostrar auditoría en la terminal
+print("\n" + "="*50)
+print("AUDITORÍA DE TRANSFORMACIÓN DE DATOS")
+print("="*50)
+print(f"\nColumnas Agregadas:\n{', '.join(columnas_agregadas) if columnas_agregadas else 'Ninguna'}")
+print(f"\nColumnas Eliminadas:\n{', '.join(columnas_eliminadas) if columnas_eliminadas else 'Ninguna'}")
+print(f"\nTotal de registros en el dataset final: {len(df_cleaned)}")
+print(f"\nRegistros efectivamente actualizados con nuevas columnas: {registros_actualizados}")
+print("\nEjemplo de registro ANTES de la transformación:")
+print(ejemplo_antes)
+print("\nEjemplo de registro DESPUÉS de la transformación:")
+print(ejemplo_despues)
+print("="*50)
