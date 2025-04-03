@@ -49,12 +49,18 @@ except Exception as e:
     print(f"Error al combinar los datasets: {e}")
     raise
 
-# Seleccionamos solo las columnas relevantes del dataset adicional
+# Seleccionar solo las columnas relevantes del dataset adicional
 ratings_data = df_additional[['Book_ratings_count', 'Book_average_rating', 'gross sales']]
 
 # Resetear índices para asegurar alineación secuencial
 df_cleaned = df_cleaned.reset_index(drop=True)
 ratings_data = ratings_data.reset_index(drop=True)
+
+# Guardar una copia de un registro antes de la transformación
+ejemplo_antes = df_cleaned.iloc[0].to_dict()
+
+# Obtener las columnas antes de agregar las nuevas
+columnas_antes = set(df_cleaned.columns)
 
 # Añadir las columnas de ratings al dataset limpio
 try:
@@ -66,8 +72,21 @@ except Exception as e:
     print(f"Error al añadir las columnas de ratings: {e}")
     raise
 
-# Exportar el dataset enriquecido a un nuevo archivo CSV
+# Contar cuántos registros se actualizaron efectivamente
+registros_actualizados = df_cleaned[['Book_ratings_count', 'Book_average_rating', 'gross sales']].notnull().all(axis=1).sum()
+
+# Obtener las columnas después de la transformación
+columnas_despues = set(df_cleaned.columns)
+columnas_agregadas = columnas_despues - columnas_antes
+columnas_eliminadas = columnas_antes - columnas_despues
+
+# Guardar un registro después de la transformación
+ejemplo_despues = df_cleaned.iloc[0].to_dict()
+
+# Ruta de salida para el dataset enriquecido
 ruta_output_ratings = "src/bigdata/static/xlsx/books_transformacion_data.csv"
+
+# Exportar el dataset enriquecido a un nuevo archivo CSV
 try:
     df_cleaned.to_csv(ruta_output_ratings, index=False)
     print(f"Archivo con ratings añadido guardado en: {ruta_output_ratings}")
@@ -75,11 +94,16 @@ except Exception as e:
     print(f"Error al guardar el archivo enriquecido: {e}")
     raise
 
-# Crear un archivo de auditoría vacío
-ruta_output_auditoria = "src/bigdata/static/auditoria/auditoria_transformacion.txt"
-try:
-    with open(ruta_output_auditoria, "w", encoding="utf-8") as file:
-        file.write("")  # Archivo vacío
-    print(f"Archivo de auditoría vacío guardado en: {ruta_output_auditoria}")
-except Exception as e:
-    print(f"Error al guardar el archivo de auditoría: {e}")
+# Mostrar auditoría en la terminal
+print("\n" + "="*50)
+print("AUDITORÍA DE TRANSFORMACIÓN DE DATOS")
+print("="*50)
+print(f"\nColumnas Agregadas:\n{', '.join(columnas_agregadas) if columnas_agregadas else 'Ninguna'}")
+print(f"\nColumnas Eliminadas:\n{', '.join(columnas_eliminadas) if columnas_eliminadas else 'Ninguna'}")
+print(f"\nTotal de registros en el dataset final: {len(df_cleaned)}")
+print(f"\nRegistros efectivamente actualizados con nuevas columnas: {registros_actualizados}")
+print("\nEjemplo de registro ANTES de la transformación:")
+print(ejemplo_antes)
+print("\nEjemplo de registro DESPUÉS de la transformación:")
+print(ejemplo_despues)
+print("="*50)
